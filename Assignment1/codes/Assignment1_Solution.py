@@ -6,7 +6,7 @@ from coeffs import *
 n1 = np.array([2,3])
 n2 = np.array([2,-4]) 
 n3 = np.array([-1,-1]) 
-c =  np.array([11,-24]) 
+c =  np.array([11,-24,-3]) 
 
 #Intercepts
 A1,B1 =  line_icepts(n1,c[0])
@@ -14,62 +14,35 @@ A2,B2 =  line_icepts(n2,c[1])
 
 
 #Matrix Ranks
-N=np.vstack((n1,n2))
+N=np.vstack((n1,n2,n3))
+print(N)
 M =np.vstack((N.T, c)).T
+print(M)
 rank_N = np.linalg.matrix_rank(N)
 rank_M = np.linalg.matrix_rank(M)
 m,n = np.shape(N)
+print(m,n)
 print(rank_M, rank_N, M)
 
-#Checking for solution for two equations (2 3)x=11 and (2 -4)=-24
+#Checking for solution for two equations (2 3)x=11, (2 -4)=-24 and (-1 -1) x=-3
 if rank_N==rank_M:
 	if rank_N == m:
-		print("Unique Solution Exists")
+		print("System of Equations are consistent and Unique Solution Exists")
 	else:
-		print("Infinite Number of Solutions")
+		print("System of Equations are consistent and Infinite Number of Solutions exists")
 else:
 	print("No solution")
 
-print("\nunique solution will be the intersection point of two lines represented by equations")
+print("\nThe solution will be the intersection point of any two lines represented by equations")
 #line_intersect
-x=np.array([line_intersect(n1,c[0],n2,c[1])]);
+x=line_intersect(n1,c[0],n2,c[1]);
 print(x)
-A3,B3 = line_icepts(n3,-3)
-c =  np.array([-24,-3]) 
-#Matrix Ranks
-N=np.vstack((n2,n3))
-M =np.vstack((N.T, c)).T
-rank_N = np.linalg.matrix_rank(N)
-rank_M = np.linalg.matrix_rank(M)
-m,n = np.shape(N)
-print(rank_M, rank_N, M)
+A3,B3 = line_icepts(n3,c[2])
+#print(A3,B3)
+x[0]=round(x[0])
 
-#Checking for solution for two equations (-1 -1)x=-3 and (2 -4)=-24
-if rank_N==rank_M:
-	if rank_N == m:
-		print("Unique Solution Exists:",np.linalg.inv(N)@c)
-	else:
-		print("Infinite Number of Solutions")
-else:
-	print("No solution")
-c =  np.array([11,-3])
-#Matrix Ranks
-N=np.vstack((n1,n3))
-M =np.vstack((N.T, c)).T
-rank_N = np.linalg.matrix_rank(N)
-rank_M = np.linalg.matrix_rank(M)
-m,n = np.shape(N)
-print(rank_M, rank_N, M)
-
-#Checking for solution for two equations (-1 -1)x=-3 and (2 3)=11
-if rank_N==rank_M:
-	if rank_N == m:
-		print("Unique Solution Exists:",np.linalg.inv(N)@c)
-	else:
-		print("Infinite Number of Solutions")
-else:
-	print("No solution")
-
+if ((n3[0]*x[0])+(n3[1]*x[1])== -3):
+        print("The intersection point is one of the solutions since the point satisifes the system of equations.")
 head_length = 0.7
 
 dx1 = B2[0] - A2[0]
@@ -122,7 +95,7 @@ ax.annotate('equation (-1 -1)x=-3', xy=(1,2),  xycoords='data',
             arrowprops=dict(facecolor='green', shrink=0.05),
             horizontalalignment='right', verticalalignment='top',
             )
-ax.annotate('Unique Solution', xy=(-2,5),  xycoords='data',
+ax.annotate('Solution', xy=(-2,5),  xycoords='data',
             xytext=(0.8,0.95), textcoords='axes fraction',
             arrowprops=dict(facecolor='black', shrink=0.05),
             horizontalalignment='right', verticalalignment='top',
